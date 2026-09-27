@@ -1,2 +1,15 @@
-<!doctype html><html><head><meta charset="utf-8"><title>Tesla sign-in</title></head>
-<body><p>Tesla sign-in finished. You can close this tab.</p></body></html>
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tesla sign-in</title>
+<meta name="referrer" content="no-referrer">
+<style>body{font-family:-apple-system,system-ui,sans-serif;max-width:40em;margin:3em auto;padding:0 1em}code{display:block;word-break:break-all;background:#f3f3f3;padding:.8em;border-radius:6px;margin:.6em 0}button{font-size:1em;padding:.5em 1em}</style></head>
+<body><h2>Tesla sign-in finished</h2>
+<div id="ok" hidden><p>Copy this and paste it back to Grok-EMBot. It works once and expires in a few minutes.</p><code id="v"></code><button id="b">Copy</button> <span id="c"></span></div>
+<div id="err" hidden><p>Tesla returned an error:</p><code id="e"></code></div>
+<p id="none" hidden>No sign-in code found. You can close this tab.</p>
+<script>
+var q=new URLSearchParams(location.search),code=q.get('code'),st=q.get('state'),er=q.get('error');
+if(code){var t='code='+code+'&state='+(st||'');document.getElementById('v').textContent=t;document.getElementById('ok').hidden=false;
+document.getElementById('b').onclick=function(){navigator.clipboard.writeText(t).then(function(){document.getElementById('c').textContent='Copied';});};}
+else if(er){document.getElementById('e').textContent=er+': '+(q.get('error_description')||'');document.getElementById('err').hidden=false;}
+else{document.getElementById('none').hidden=false;}
+history.replaceState(null,'',location.pathname);
+</script></body></html>
